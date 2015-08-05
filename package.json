@@ -1,0 +1,29 @@
+{
+  "name": "aloysius",
+  "version": "0.0.0",
+  "description": "Species Counterpoint",
+  "main": "aloysius.js",
+  "scripts": {
+    "compile": "babel --modules umd src/aloysius.js --out-file dist/aloysius.js -s",
+    "watch": "babel --modules umd src/aloysius.js --watch --out-file dist/aloysius.js -s",
+    "test": "mocha --compilers js:babel/register"
+  },
+  "keywords": [
+    "music",
+    "counterpoint",
+    "composition",
+    "bach",
+    "fux",
+    "note"
+  ],
+  "author": "Sean Mullen",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "^5.8.21",
+    "chai": "^3.2.0",
+    "mocha": "^2.2.5"
+  },
+  "dependencies": {
+    "lodash": "^3.10.1"
+  }
+}
