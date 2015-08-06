@@ -24,6 +24,7 @@
     "mocha": "^2.2.5"
   },
   "dependencies": {
-    "lodash": "^3.10.1"
+    "lodash": "^3.10.1",
+    "palestrina.js": "^1.0.0"
   }
 }
