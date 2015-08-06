@@ -1,10 +1,10 @@
 import {expect} from "chai";
-import {consonant} from "../src/aloysius";
+import * as aloysius from "../src/aloysius";
 
 describe("aloysius", () => {
-    describe("consonant", () => {
-        it("should exist", () => {
-            expect(consonant).to.be.defined;
+    describe("interval", () => {
+        it("should give the interval given degrees of the scale", () => {
+
         });
     });
 });
