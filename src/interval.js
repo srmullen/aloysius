@@ -1,41 +1,32 @@
-const PERFECT = 1;
-const IMPERFECT = 2;
-const DISSONANT = 3;
+"use strict";
+
+const intervals = [
+    {degree: 0, name: "unison", perfect: true},
+    {degree: 1, name: "second", minor: true, dissonant: true},
+    {degree: 1, name: "second", major: true, dissonant: true},
+    {degree: 2, name: "third", minor: true, consonant: true},
+    {degree: 2, name: "third", major: true, consonant: true},
+    {degree: 3, name: "fourth", dissonant: true},
+    // {degree: 3, name: "fourth", augmented: true},
+    {degree: 4, name: "fifth", diminished: true, dissonant: true},
+    {degree: 4, name: "fifth", perfect: true},
+    {degree: 5, name: "sixth", minor: true, consonant: true},
+    {degree: 5, name: "sixth", major: true, consonant: true},
+    {degree: 6, name: "seventh", minor: true, dissonant: true},
+    {degree: 6, name: "seventh", major: true, dissonant: true}
+];
 
 /*
- * Checks that properties of an interval are valid.
+ * @param chromaticSteps {Number} The number of chromatic steps.
+ * @return {Number} The interval degree
  */
-function validate ({degree, }) {
+function stepsToInterval (chromaticSteps) {
+    const degrees = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6];
 
-}
+    let octaves = Math.floor(chromaticSteps / 12),
+        degree = degrees[chromaticSteps % 12] + 7 * octaves;
 
-function isValid (interval) {
-    try {
-        validate(interval);
-    } catch (e) {
-        return false;
-    }
-    return true;
-}
-
-function get (chromaticDiff) {
-    const intervals = [
-        {degree: 0, name: "unison"},
-        {degree: 1, name: "second", minor: true},
-        {degree: 1, name: "second", major: true},
-        {degree: 2, name: "third", minor: true},
-        {degree: 2, name: "third", major: true},
-        {degree: 3, name: "fourth"},
-        // {degree: 3, name: "fourth", augmented: true},
-        {degree: 4, name: "fifth", diminished: true},
-        {degree: 4, name: "fifth"},
-        {degree: 5, name: "sixth", minor: true},
-        {degree: 5, name: "sixth", major: true},
-        {degree: 6, name: "seventh", minor: true},
-        {degree: 6, name: "seventh", major: true}
-    ];
-
-    return intervals[chromaticDiff];
+    return degree;
 }
 
 function reduce (interval) {
@@ -43,15 +34,10 @@ function reduce (interval) {
 }
 
 function from (m1, m2) {
-    return get(m2 - m1);
+    return stepsToInterval(m2 - m1);
 }
 
 export {
-    PERFECT,
-    IMPERFECT,
-    DISSONANT,
-
-    isValid,
     reduce,
     from
 }

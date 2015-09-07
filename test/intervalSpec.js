@@ -13,10 +13,10 @@ describe("interval", () => {
     });
 
     describe("from", () => {
-        it("should return the interval of two midi numbers", () => {
-            expect(interval.from(1, 1)).to.eql({degree: 0, name: "unison"});
-            expect(interval.from(60, 71)).to.eql({degree: 6, name: "seventh", major: true});
-            expect(interval.from(60, 72)).to.eql({degree: 7, name: "octave"});
+        it("should return the interval degree of two midi numbers", () => {
+            expect(interval.from(1, 1)).to.eql(0);
+            expect(interval.from(60, 71)).to.eql(6);
+            expect(interval.from(60, 72)).to.eql(7);
         });
     });
 });
