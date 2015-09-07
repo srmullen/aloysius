@@ -4,8 +4,10 @@
   "description": "Species Counterpoint",
   "main": "aloysius.js",
   "scripts": {
-    "compile": "babel --modules umd src/aloysius.js --out-file dist/aloysius.js -s",
-    "watch": "babel --modules umd src/aloysius.js --watch --out-file dist/aloysius.js -s",
+    "watchify": "watchify src/aloysius.js -t [babelify --blacklist regenerator] -o dist/aloysius.js -v -d",
+    "build": "browserify src/aloysius.js -t babelify --outfile dist/aloysius.js",
+    "es6compile": "babel --modules umd src/ --out-dir lib/ -s",
+    "es6watch": "babel --modules umd src/ --watch --out-dir lib/ -s",
     "test": "mocha --compilers js:babel/register"
   },
   "keywords": [
@@ -17,14 +19,15 @@
     "note"
   ],
   "author": "Sean Mullen",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "babel": "^5.8.21",
+    "babelify": "^6.2.0",
     "chai": "^3.2.0",
     "mocha": "^2.2.5"
   },
   "dependencies": {
     "lodash": "^3.10.1",
-    "palestrina.js": "^1.0.0"
+    "palestrina.js": "^1.1.0"
   }
 }
