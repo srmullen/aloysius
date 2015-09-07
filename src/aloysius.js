@@ -21,13 +21,50 @@ function isPerfect (i) {
     return perfectConsonances[i % 12];
 }
 
+function isContrary ([cantus1, voice1], [cantus2, voice2]) {
+    if (cantus1 > cantus2 && voice1 < voice2) {
+        return true;
+    } else if (cantus1 < cantus2 && voice1 > voice2) {
+        return true;
+    }
+
+    return false;
+}
+
+function isDirect ([cantus1, voice1], [cantus2, voice2]) {
+    if (cantus1 < cantus2 && voice1 < voice2) {
+        return true;
+    } else if (cantus1 > cantus2 && voice1 > voice2) {
+        return true;
+    }
+
+    return false;
+}
+
+function isOblique ([cantus1, voice1], [cantus2, voice2]) {
+    if (cantus1 === cantus2 && voice1 !== voice2) {
+        return true;
+    } else if (voice1 === voice2 && cantus1 !== cantus2) {
+        return true;
+    }
+
+    return false;
+}
+
+function step ([cantus1, voice1], [cantus2, voice2]) {
+    let interval1 = interval.from(cantus1, voice1),
+        interval2 = interval.from(cantus2, voice2);
+}
 
 export {
     interval,
 
     isConsonant,
     isDissonant,
-    isPerfect
+    isPerfect,
+    isContrary,
+    isDirect,
+    isOblique
 };
 
 if (typeof window === "object") {
@@ -36,6 +73,9 @@ if (typeof window === "object") {
 
         isConsonant,
         isDissonant,
-        isPerfect
+        isPerfect,
+        isContrary,
+        isDirect,
+        isOblique
     };
 }

@@ -63,4 +63,57 @@ describe("aloysius", () => {
             expect(isPerfect(13)).to.be.false;
         });
     });
+
+    describe("isContrary", () => {
+        let isContrary = aloysius.isContrary;
+        it("should return true if voices move in opposite directions", () => {
+            expect(isContrary([1, 4], [2, 3])).to.be.true; // voices move closer
+            expect(isContrary([2, 3], [1, 4])).to.be.true; // voices move apart
+        });
+
+        it("should return false if motion is contrary or direct", () => {
+            expect(isContrary([1, 4], [1, 3])).to.be.false; // oblique
+            expect(isContrary([1, 4], [2, 5])).to.be.false; // direct
+            expect(isContrary([2, 5], [1, 4])).to.be.false;
+        });
+
+        it("should return false if there is no motion", () => {
+            expect(isContrary([1, 4], [1, 4])).to.be.false;
+        });
+    });
+
+    describe("isDirect", () => {
+        let isDirect = aloysius.isDirect;
+        it("should return true if the voices move in the same direction", () => {
+            expect(isDirect([1, 3], [4, 5])).to.be.true;
+            expect(isDirect([4, 5], [1, 3])).to.be.true;
+        });
+
+        it("should return false if the movement is oblique or contrary", () => {
+            expect(isDirect([1, 4], [2, 3])).to.be.false;
+            expect(isDirect([2, 3], [1, 4])).to.be.false;
+            expect(isDirect([1, 4], [1, 3])).to.be.false;
+        });
+
+        it("should return false if there is no motion", () => {
+            expect(isDirect([1, 4], [1, 4])).to.be.false;
+        });
+    });
+
+    describe("isOblique", () => {
+        let isOblique = aloysius.isOblique;
+        it("should return true if one part moves by step or skip while the other remains stationary", () => {
+            expect(isOblique([1, 4], [1, 3])).to.be.true;
+            expect(isOblique([1, 4], [2, 4])).to.be.true;
+        });
+
+        it("should return false if the movment is direct or contrary", () => {
+            expect(isOblique([1, 3], [4, 5])).to.be.false;
+            expect(isOblique([1, 4], [2, 3])).to.be.false;
+        });
+
+        it("should return false if there is no motion", () => {
+            expect(isOblique([1, 4], [1, 4])).to.be.false;
+        });
+    });
 });
