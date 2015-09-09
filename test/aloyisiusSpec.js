@@ -1,6 +1,7 @@
 import {expect} from "chai";
 import _ from "lodash";
 import * as aloysius from "../src/aloysius";
+import {scale} from "palestrina.js";
 
 describe("aloysius", () => {
 
@@ -64,6 +65,26 @@ describe("aloysius", () => {
         });
     });
 
+    describe("isImperfect", () => {
+        let isImperfect = aloysius.isImperfect;
+        it("should return true for thirds and sixths", () => {
+            expect(isImperfect(0)).to.be.false;
+            expect(isImperfect(1)).to.be.false;
+            expect(isImperfect(2)).to.be.false;
+            expect(isImperfect(3)).to.be.true;
+            expect(isImperfect(4)).to.be.true;
+            expect(isImperfect(5)).to.be.false;
+            expect(isImperfect(6)).to.be.false;
+            expect(isImperfect(7)).to.be.false;
+            expect(isImperfect(8)).to.be.true;
+            expect(isImperfect(9)).to.be.true;
+            expect(isImperfect(10)).to.be.false;
+            expect(isImperfect(11)).to.be.false;
+            expect(isImperfect(12)).to.be.false;
+            expect(isImperfect(13)).to.be.false;
+        });
+    });
+
     describe("isContrary", () => {
         let isContrary = aloysius.isContrary;
         it("should return true if voices move in opposite directions", () => {
@@ -114,6 +135,56 @@ describe("aloysius", () => {
 
         it("should return false if there is no motion", () => {
             expect(isOblique([1, 4], [1, 4])).to.be.false;
+        });
+    });
+
+    describe("isValidStep", () => {
+        let isValidStep = aloysius.isValidStep,
+            cmaj = _.compose(scale.C, scale.major);
+        describe("Rule 1 - From one perfect consonance to another perfect consonance, one must proceed in contrary or oblique motion", () => {
+            it("should return true", () => {
+                expect(isValidStep([cmaj(0), cmaj(7)], [cmaj(1), cmaj(5)])).to.be.true;
+                expect(isValidStep([cmaj(3), cmaj(7)], [cmaj(0), cmaj(7)])).to.be.true;
+            });
+
+            it("should return false", () => {
+                expect(isValidStep([cmaj(0), cmaj(7)], [cmaj(1), cmaj(8)])).to.be.false; // parallel octaves
+                expect(isValidStep([cmaj(3), cmaj(7)], [cmaj(0), cmaj(4)])).to.be.false; // parallel fifths
+                expect(isValidStep([cmaj(0), cmaj(7)], [cmaj(0), cmaj(7)])).to.be.false; // no motion
+            });
+        });
+
+        describe("Rule 2 - 2. From a perfect consonance to an imperfect consonance one may proceed in any of the three motions.", () => {
+            it("should return true", () => {
+                expect(isValidStep([cmaj(0), cmaj(7)], [cmaj(1), cmaj(6)])).to.be.true; // contrary
+                expect(isValidStep([cmaj(0), cmaj(7)], [cmaj(3), cmaj(8)])).to.be.true; // direct
+                expect(isValidStep([cmaj(0), cmaj(4)], [cmaj(0), cmaj(2)])).to.be.true; // oblique
+            });
+        });
+
+        describe("Rule 3 - From an imperfect consonance to a perfect consonance one must proceed by contrary or oblique motion.", () => {
+            it("should return true", () => {
+                expect(isValidStep([cmaj(1), cmaj(3)], [cmaj(0), cmaj(4)])).to.be.true; // contrary
+                expect(isValidStep([cmaj(1), cmaj(3)], [cmaj(2), cmaj(2)])).to.be.true; // contrary
+                expect(isValidStep([cmaj(0), cmaj(5)], [cmaj(0), cmaj(4)])).to.be.true; // oblique
+            });
+
+            it("should return false", () => {
+                expect(isValidStep([cmaj(0), cmaj(2)], [cmaj(1), cmaj(5)])).to.be.false; // direct
+                expect(isValidStep([cmaj(3), cmaj(8)], [cmaj(0), cmaj(7)])).to.be.false; // direct
+            });
+        });
+
+        describe("Rule 4 - From one imperfect consonance to another imperfect consonance one may proceed in any of the three motions.", () => {
+            it("should return true", () => {
+                expect(isValidStep([cmaj(0), cmaj(5)], [cmaj(1), cmaj(3)])).to.be.true; // contrary
+                expect(isValidStep([cmaj(0), cmaj(2)], [cmaj(1), cmaj(3)])).to.be.true; // direct
+                expect(isValidStep([cmaj(0), cmaj(2)], [cmaj(0), cmaj(5)])).to.be.true; // oblique
+            });
+
+            it("should return false", () => {
+                expect(isValidStep([cmaj(0), cmaj(3)], [cmaj(0), cmaj(3)])).to.be.false; // no motion
+            });
         });
     });
 });

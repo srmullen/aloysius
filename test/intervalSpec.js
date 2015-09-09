@@ -15,8 +15,16 @@ describe("interval", () => {
     describe("from", () => {
         it("should return the interval degree of two midi numbers", () => {
             expect(interval.from(1, 1)).to.eql(0);
-            expect(interval.from(60, 71)).to.eql(6);
-            expect(interval.from(60, 72)).to.eql(7);
+            expect(interval.from(60, 71)).to.eql(11);
+            expect(interval.from(60, 72)).to.eql(12);
+        });
+    });
+
+    describe("stepsToDegree", () => {
+        it("should return the heptatonic degree of the chromatic steps", () => {
+            expect(interval.stepsToDegree(0)).to.eql(0);
+            expect(interval.stepsToDegree(11)).to.eql(6);
+            expect(interval.stepsToDegree(12)).to.eql(7);
         });
     });
 });

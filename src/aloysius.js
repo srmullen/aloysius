@@ -21,6 +21,12 @@ function isPerfect (i) {
     return perfectConsonances[i % 12];
 }
 
+function isImperfect (i) {
+    const imperfectConsonances = [false, false, false, true, true, false, false, false, true, true, false, false];
+
+    return imperfectConsonances[i % 12];
+}
+
 function isContrary ([cantus1, voice1], [cantus2, voice2]) {
     if (cantus1 > cantus2 && voice1 < voice2) {
         return true;
@@ -51,9 +57,31 @@ function isOblique ([cantus1, voice1], [cantus2, voice2]) {
     return false;
 }
 
-function step ([cantus1, voice1], [cantus2, voice2]) {
-    let interval1 = interval.from(cantus1, voice1),
-        interval2 = interval.from(cantus2, voice2);
+function isValidStep (step1, step2) {
+    let interval1 = interval.from(step1[0], step1[1]),
+        interval2 = interval.from(step2[0], step2[1]);
+
+    // Rule 1
+    if (isPerfect(interval1) && isPerfect(interval2)) {
+        return isContrary(step1, step2) || isOblique(step1, step2);
+    }
+
+    // Rule 2
+    if (isPerfect(interval1) && isImperfect(interval2)) {
+        return isContrary(step1, step2) || isDirect(step1, step2) || isOblique(step1, step2);
+    }
+
+    // Rule 3
+    if (isImperfect(interval1) && isPerfect(interval2)) {
+        return isContrary(step1, step2) || isOblique(step1, step2);
+    }
+
+    // Rule 4
+    if (isImperfect(interval1) && isImperfect(interval2)) {
+        return isContrary(step1, step2) || isDirect(step1, step2) || isOblique(step1, step2);
+    }
+
+    return false;
 }
 
 export {
@@ -62,9 +90,11 @@ export {
     isConsonant,
     isDissonant,
     isPerfect,
+    isImperfect,
     isContrary,
     isDirect,
-    isOblique
+    isOblique,
+    isValidStep
 };
 
 if (typeof window === "object") {
@@ -74,8 +104,10 @@ if (typeof window === "object") {
         isConsonant,
         isDissonant,
         isPerfect,
+        isImperfect,
         isContrary,
         isDirect,
-        isOblique
+        isOblique,
+        isValidStep
     };
 }

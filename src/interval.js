@@ -20,7 +20,7 @@ const intervals = [
  * @param chromaticSteps {Number} The number of chromatic steps.
  * @return {Number} The interval degree
  */
-function stepsToInterval (chromaticSteps) {
+function stepsToDegree (chromaticSteps) {
     const degrees = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6];
 
     let octaves = Math.floor(chromaticSteps / 12),
@@ -34,10 +34,11 @@ function reduce (interval) {
 }
 
 function from (m1, m2) {
-    return stepsToInterval(m2 - m1);
+    return m2 - m1;
 }
 
 export {
     reduce,
-    from
+    from,
+    stepsToDegree
 }
