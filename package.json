@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "lodash": "^3.10.1",
-    "palestrina.js": "^1.1.0"
+    "palestrina.js": "^1.2.0"
   }
 }

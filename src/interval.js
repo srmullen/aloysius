@@ -34,7 +34,7 @@ function reduce (interval) {
 }
 
 function from (m1, m2) {
-    return m2 - m1;
+    return Math.max(m1, m2) - Math.min(m1, m2);
 }
 
 export {

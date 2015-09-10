@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import _ from "lodash";
 import * as aloysius from "../src/aloysius";
-import {scale} from "palestrina.js";
+import {scale, melody} from "palestrina.js";
 
 describe("aloysius", () => {
 
@@ -184,6 +184,28 @@ describe("aloysius", () => {
 
             it("should return false", () => {
                 expect(isValidStep([cmaj(0), cmaj(3)], [cmaj(0), cmaj(3)])).to.be.false; // no motion
+            });
+        });
+
+        describe("gradeFirstSpecies", () => {
+            describe("Gradus ad Parnassum - Chapter 1 examples", () => {
+                let ddor = _.compose(scale.D, scale.dorian),
+                    talea = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                    cantus = melody.where("pitch", ddor, melody.phrase(talea, [0, 2, 1, 0, 3, 2, 4, 3, 2, 1, 0]));
+
+                it("should handle Fig. 5", () => {
+                    let cpt = melody.where("pitch", ddor, melody.phrase(talea, [4, 4, 3, 4, 5, 6, 6, 5, 7, 6.5, 7]));
+                    expect(aloysius.gradeFirstSpecies(cantus, cpt)).to.eql([]);
+                });
+
+                it("should handle Fig. 6", () => {
+                    let ddorLower = _.compose(ddor, scale.lower),
+                        failCpt = melody.where("pitch", ddorLower, melody.phrase(talea, [3, 7, 4, 2, 1, 0, 2, 6, 7, 6.5, 7])),
+                        passCpt = melody.where("pitch", ddorLower, melody.phrase(talea, [0, 0, 4, 2, 1, 0, 2, 6, 7, 6.5, 7]));
+
+                    expect(aloysius.gradeFirstSpecies(cantus, passCpt)).to.eql([]);
+                    // expect(aloysius.gradeFirstSpecies(cantus, failCpt).length).to.equal(2);
+                });
             });
         });
     });
