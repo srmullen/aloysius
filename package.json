@@ -1,6 +1,6 @@
 {
   "name": "aloysius",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Species Counterpoint",
   "main": "aloysius.js",
   "scripts": {
@@ -29,5 +29,9 @@
   "dependencies": {
     "lodash": "^3.10.1",
     "palestrina.js": "^1.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/srmullen/aloysius.git"
   }
 }
